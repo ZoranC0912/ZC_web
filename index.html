@@ -16,11 +16,14 @@
             scroll-behavior: smooth;
         }
         .header {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             display: flex;
             justify-content: flex-end;
             padding: 20px;
-            background: black;
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 10;
         }
         .header a {
@@ -49,7 +52,7 @@
             flex-direction: column;
             align-items: center;
             opacity: 0; /* Initially hidden for animation */
-            transform: translateY(-10px); /* Start from below */
+            transform: translateY(30px); /* Start from below */
             transition: all 1s ease-out;
         }
         .fade-title div:first-child {
@@ -65,7 +68,7 @@
         /* Fade-in animation */
         .fade-title.visible {
             opacity: 1;
-            transform: translateY(-70px); /* Stop 50px above its original position */
+            transform: translateY(-10px); /* Stop 50px above its original position */
         }
         .gallery {
             background: black;
@@ -266,7 +269,6 @@
         </div>
     </div>
 
-<hr class="section-divider"> <!-- Divider after Hero Section -->
 
     <div id="artworks" class="gallery">
         <img src="gallery/artwork1.jpg.jpg" alt="Artwork 1" onclick="openLightbox(this)">
@@ -352,9 +354,8 @@
         }
     </script>
 
-<hr class="section-divider; width: 10%;"> <!-- Divider after About -->
 
-    <footer class="footer" style="background: black; color: white; text-align: center; padding: 20px; position: relative; width: 100%;">
+    <footer class="footer" style="background-color: rgba(0, 0, 0, 0.8);; color: white; text-align: center; padding: 20px; position: relative; width: 100%;">
         <p>© 2025 Zoran Cvetkovic. All rights reserved.</p>
     </footer>
 
