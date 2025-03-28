@@ -107,7 +107,8 @@
         }
         .lightbox img {
             max-width: 90%;
-            max-height: 90%;
+            max-height: 80vh;
+            object-fit: contain;
         }
         .lightbox.active {
             display: flex;
@@ -128,6 +129,27 @@
             font-size: 24px;
             padding: 5px 10px;
             cursor: pointer;
+        }
+        .prev-btn, .next-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            color: white;
+            border: none;
+            font-size: 40px;
+            padding: 10px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .prev-btn:hover, .next-btn:hover {
+            color: gray;
+        }
+        .prev-btn {
+            left: 20px;
+        }
+        .next-btn {
+            right: 20px;
         }
         .about {
             background: url('gallery/zoran-cvetkovic_web_bck_008.png') no-repeat center center/cover;
@@ -233,6 +255,15 @@
             .contact p {
                 font-size: 14px;
             }
+            .prev-btn, .next-btn {
+                font-size: 30px;
+                padding: 5px;
+            }
+            .close-btn {
+                font-size: 20px;
+                top: 5px;
+                right: 10px;
+            }
         }
         @media (max-width: 480px) {
             .gallery img {
@@ -253,6 +284,10 @@
                 font-size: 14px;
                 gap: 6px;
             }
+            .prev-btn, .next-btn {
+                font-size: 24px;
+                padding: 5px;
+            }
         }
     </style>
 </head>
@@ -269,7 +304,6 @@
         </div>
     </div>
 
-
     <div id="artworks" class="gallery">
         <img src="gallery/artwork1.jpg.jpg" alt="Artwork 1" onclick="openLightbox(this)">
         <img src="gallery/artwork2.jpg.jpg" alt="Artwork 2" onclick="openLightbox(this)">
@@ -280,16 +314,15 @@
         <img src="gallery/zoran-cvetkovic-c094-2k_hq.png" alt="Construct No.94" onclick="openLightbox(this)">
         <img src="gallery/zoran-cvetkovic-c092-2k_hq.png" alt="Construct No.92" onclick="openLightbox(this)">
         <img src="gallery/zoran-cvetkovic-da-79-2k.jpg" alt="Construct No.79" onclick="openLightbox(this)">
-
     </div>
     
     <div class="lightbox" id="lightbox">
-        <button class="close-btn" onclick="closeLightbox()">&times;</button>
+        <button class="close-btn" onclick="closeLightbox()">×</button>
+        <button class="prev-btn" onclick="changeImage(-1)">❮</button>
+        <button class="next-btn" onclick="changeImage(1)">❯</button>
         <img id="lightbox-img" src="" alt="Full-size artwork">
         <div class="lightbox-title" id="lightbox-title"></div>
     </div>
-
-
 
     <!-- About Section -->
     <div id="about" class="about">
@@ -328,7 +361,9 @@ My Digital Alchemy series delves into the fusion of organic and synthetic forms,
         </form>
     </div>
 
-    </div>
+    <footer class="footer" style="background-color: rgba(0, 0, 0, 0.9); color: rgba(120, 120, 120, 0.9); text-align: center; padding: 20px; position: relative; width: 100%;">
+        <p>© 2025 Zoran Cvetkovic. All rights reserved.</p>
+    </footer>
 
     <script>
         // Intersection Observer to trigger the animation
@@ -363,12 +398,34 @@ My Digital Alchemy series delves into the fusion of organic and synthetic forms,
         function closeLightbox() {
             document.getElementById('lightbox').classList.remove('active');
         }
+
+        function changeImage(direction) {
+            currentIndex = (currentIndex + direction + images.length) % images.length;
+            let lightboxImg = document.getElementById('lightbox-img');
+            let lightboxTitle = document.getElementById('lightbox-title');
+            lightboxImg.src = images[currentIndex].src;
+            lightboxTitle.innerText = images[currentIndex].alt;
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                if (e.key === 'ArrowLeft') {
+                    changeImage(-1);
+                } else if (e.key === 'ArrowRight') {
+                    changeImage(1);
+                } else if (e.key === 'Escape') {
+                    closeLightbox();
+                }
+            }
+        });
+
+        // Close lightbox when clicking outside the image
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('lightbox')) {
+                closeLightbox();
+            }
+        });
     </script>
-
-
-    <footer class="footer" style="background-color: rgba(0, 0, 0, 0.9);; color: rgba(120, 120, 120, 0.9);; text-align: center; padding: 20px; position: relative; width: 100%;">
-        <p>© 2025 Zoran Cvetkovic. All rights reserved.</p>
-    </footer>
-
 </body>
 </html>
